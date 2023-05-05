@@ -1,0 +1,8 @@
+
+train: /root/project/Datas/Stones/seg/train
+val: /root/project/Datas/Stones/seg/val
+test: /root/project/Datas/Stones/seg/val
+
+# Classes
+names:
+  0: stone

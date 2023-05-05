@@ -1,0 +1,9 @@
+
+train: 
+  - /root/project/Datas/minStones/V2/seg
+val: /root/project/Datas/minStones/V2/seg
+test: /root/project/Datas/minStones/V2/seg
+
+# Classes
+names:
+  0: stone
