@@ -32,7 +32,7 @@ for pathi in tqdm(os.listdir(labelfolder)):
         "imageWidth":w_,
         "imageData": None
     }
-
+    
     for index_, datai in enumerate(datas):
         datai = np.array(datai[:-1].split(" "), dtype=float)
         name_ = datai[0].copy()
