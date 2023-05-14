@@ -16,8 +16,9 @@ python -m torch.distributed.run \
     --cfg ./models/segment/yolov5x-seg.yaml \
     --hyp ./data/hyps/hyp.scratch-med.yaml \
     --batch-size 2 \
-    --epochs 600 \
+    --epochs 400 \
     --img 640 \
     --device 0 \
-    --project runs/train-minseg \
-    --cache
+    --project runs/train-minseg/exp \
+    --cache \
+    --multi-scale

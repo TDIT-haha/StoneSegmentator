@@ -1,8 +1,7 @@
 
-train: 
-  - /root/project/Datas/minStones/V2/seg
-val: /root/project/Datas/minStones/V2/seg
-test: /root/project/Datas/minStones/V2/seg
+train: /root/project/Datas/minStones/V4/train
+val: /root/project/Datas/minStones/V4/val
+test: /root/project/Datas/minStones/V4/val
 
 # Classes
 names:
