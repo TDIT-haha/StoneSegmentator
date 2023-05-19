@@ -5,7 +5,7 @@ Instance segmentation task for stones
 百度网盘链接：https://pan.baidu.com/s/1r64zoGveZ1zOpAICdX4IpQ  提取码：h5h1 
 
 ## datasets
-集合sam创建数据集
+结合sam创建数据集
 ```
 cd samseg/segment-anything-main
 sh run.sh   #使用sam获得每个石头的masks
@@ -14,9 +14,6 @@ sh run.sh   #使用sam获得每个石头的masks
 ```
 python draw_img_train.py  #生成训练集
 python draw_img_val.py  #生成测试机
-```
-```
-
 ```
 
 ## train
@@ -44,6 +41,8 @@ sh run_export.sh
 cd tools/splitSeg
 python model.py
 ```
+
+
 
 ## TODO
 1、修改分支名字 ok
