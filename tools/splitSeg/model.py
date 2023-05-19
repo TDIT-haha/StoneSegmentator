@@ -136,7 +136,7 @@ if __name__ == "__main__":
                 new_mask = np.zeros((w_, h_, 3)).astype(np.uint8)
                 for mask_ in masks:
                     mask_[mask_<255]=0
-                    contours, hierarchy = cv2.findContours(mask_, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE) 
+                    contours, hierarchy = cv2.findContours(mask_, cv2.RETR_LIST, cv2.CHAIN_APPROX_NONE) 
                     areas = []
                     if len(contours) == 0:
                         continue
@@ -147,6 +147,10 @@ if __name__ == "__main__":
                     if len(areas) == 0:
                         continue
                     max_areas = np.max(areas)
+                    # if int(max_areas) == 3:
+                    #     cv2.imwrite("mask.jpg", mask_)
+                    #     cv2.imwrite("cropimg.jpg", cropimg)
+                    #     exit()
                     totalAreas.append(max_areas)
                     
                     color = np.random.randint(0,255,size=(3))
