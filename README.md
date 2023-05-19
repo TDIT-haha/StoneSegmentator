@@ -1,4 +1,18 @@
 # StoneSegmentator
+Instance segmentation task for stones
+
+## checkpoints
+百度网盘链接：https://pan.baidu.com/s/1r64zoGveZ1zOpAICdX4IpQ  提取码：h5h1 
+
+## train
+sh run_seg_train.sh
+
+## val
+sh run_seg_val.sh
+
+## predict
+sh run_seg_detect.sh
+
 
 ## TODO
 1、修改分支名字 
