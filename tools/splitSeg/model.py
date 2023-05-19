@@ -115,7 +115,8 @@ if __name__ == "__main__":
             os.mkdir(savefolder)
             
         set_split_size = (512, 512)
-        imagepath = r"./A_4542.JPG"
+        imagepath = r"./images/A_4542.JPG"
+        basename_ = os.path.basename(imagepath)
         img = cv2.imread(imagepath)
         h,w = img.shape[:2]
 
@@ -164,7 +165,7 @@ if __name__ == "__main__":
             colsimg.append(tmp_img)
                     
         tmp_img = np.concatenate(colsimg, axis=1) 
-        cv2.imwrite("tmp.jpg", tmp_img)
+        cv2.imwrite(os.path.join(savefolder, basename_), tmp_img)
         # cv2.imwrite("draw_{}".format(os.path.basename(imagepath)), drawimg)
         totalAreas.sort()
         print("共有块数：{}".format(len(totalAreas)))

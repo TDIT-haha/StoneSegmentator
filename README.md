@@ -6,21 +6,48 @@ Instance segmentation task for stones
 
 ## datasets
 ### Create Dataset
+```
+cd samseg/segment-anything-main
+sh run.sh   #使用sam获得每个石头的masks
+```
+使用masks转换为json文件用于labelme工具进行查看或是修改
+```
+python draw_img_train.py  #生成训练集
+python draw_img_val.py  #生成测试机
+```
+```
 
+```
 
 ## train
+```
 sh run_seg_train.sh
+```
 
 ## val
+```
 sh run_seg_val.sh
+```
 
 ## predict
+```
 sh run_seg_detect.sh
+```
 
+## export
+```
+sh run_export.sh
+```
+
+## use onnx to run images
+```
+cd tools/splitSeg
+python model.py
+```
 
 ## TODO
-1、修改分支名字 
-2、上传onnx模型、torch模型 
+1、修改分支名字 ok
+2、上传onnx模型、torch模型 ok
 3、整合SAM代码，整理生成数据流程，整理运行脚本到markdown中 
-4、整合运行onnx模型的demo代码，整理运行脚本到markdown中 
-5、切分大图为小图的代码
+4、整合运行onnx模型的demo代码，整理运行脚本到markdown中 ok
+5、切分大图为小图的代码 ok
