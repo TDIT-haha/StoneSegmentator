@@ -39,7 +39,7 @@ sh run_export.sh
 ## use onnx to run images
 ```
 cd tools/splitSeg
-python model.py
+python bigImgSeg.py
 ```
 
 
