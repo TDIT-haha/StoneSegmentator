@@ -5,6 +5,10 @@ Instance segmentation task for stones
 百度网盘链接：https://pan.baidu.com/s/1r64zoGveZ1zOpAICdX4IpQ  提取码：h5h1 
 
 # Speed
+| Model   |   GPU/A4000/ONNX/BigImage     |
+| ------- | ---------------------------   |
+| v1.0    |    8.5s                       | 
+|         |                               |                   
 
 
 ## datasets
