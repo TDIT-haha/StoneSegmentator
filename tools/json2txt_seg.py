@@ -4,7 +4,7 @@ import json
 import cv2
 from tqdm import tqdm
 
-rootfolder = r"/root/project/Datas/minStones/V4/train"
+rootfolder = r"/root/project/Modules/yolov5/example/datasets"
 imgfolder = os.path.join(rootfolder, "images")
 jsonfolder = os.path.join(rootfolder, "jsons")
 save_label = os.path.join(rootfolder, "labels")

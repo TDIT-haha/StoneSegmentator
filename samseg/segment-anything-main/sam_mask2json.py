@@ -20,17 +20,20 @@ def get_approx(img, contour, length_p=0.005):
     return approx
 
 # train
-imgfolder = r"/root/project/Modules/segment-anything-main/tmps/images"
-outputfolder = r"/root/project/Modules/segment-anything-main/test_haha_outputs"
-savepath = r"/root/project/Modules/segment-anything-main/tmps/draws"
-datafolder_images = r"/root/project/Modules/segment-anything-main/tmps/images"
-datafolder_jsons = r"/root/project/Modules/segment-anything-main/tmps/jsons"
+imgfolder = r"/root/project/Modules/yolov5/example/saveSplit/A_4542" # 图像地址
+outputfolder = r"/root/project/Modules/yolov5/samseg/segment-anything-main/test_haha_outputs_01" # SAM生成mask图像地址
+savefolder = r"/root/project/Modules/yolov5/example/datasets" #保存地址
+# savepath = os.path.join(savefolder, "draws")   # draw图像保存地址
+datafolder_images = os.path.join(savefolder, "images") # 训练数据的图像保存地址
+datafolder_jsons = os.path.join(savefolder, "jsons")   # 训练数据的标签保存地址
 
 
 if not os.path.exists(datafolder_images):
     os.mkdir(datafolder_images)
 if not os.path.exists(datafolder_jsons):
     os.mkdir(datafolder_jsons)
+# if not os.path.exists(savepath):
+#     os.mkdir(savepath)
 
 alpha = 0.2 
 beta = 1
@@ -39,6 +42,8 @@ for ii , basename_ in enumerate(tqdm(os.listdir(outputfolder))):
     imgpath = os.path.join(imgfolder, imgname)
     outputpath = os.path.join(outputfolder, basename_)
     im = cv2.imread(imgpath)
+    # print("--------------------------------")
+    # print(imgpath)
     imageHeight, imageWidth = im.shape[:2]
     im_copy = im.copy()
 

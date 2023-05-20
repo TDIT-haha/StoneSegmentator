@@ -60,3 +60,4 @@ runs
 tmps
 
 pretrains
+*.csv

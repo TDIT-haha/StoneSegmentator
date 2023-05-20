@@ -9,9 +9,9 @@ from labelme.utils import image
 
 
 if __name__ == '__main__':
-    jsonfolder = r"/root/project/Modules/yolov5/runs/predict-seg/V3/exp/jsons"
-    imagefolder = r"/root/project/Datas/minStones/test/images"
-    savefolder = r"/root/project/Modules/yolov5/runs/predict-seg/V3/exp/masks"
+    jsonfolder = r"/root/project/Modules/yolov5/example/datasets/jsons" #json文件地址
+    imagefolder = r"/root/project/Modules/yolov5/example/datasets/images" #图像文件地址
+    savefolder = r"/root/project/Modules/yolov5/example/datasets/masks" #图像生成的mask地址
     if not os.path.exists(savefolder):
         os.mkdir(savefolder)
     

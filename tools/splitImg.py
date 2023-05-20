@@ -6,10 +6,10 @@ from PIL import Image
 import cv2
 
 # 需要切割图像的路径
-rootfolder = r"/root/project/Modules/yolov5/tools/splitSeg/images"
+rootfolder = r"/root/project/Modules/yolov5/example/images"
 
 # 图像切割后的路径
-savefolder = r"/root/project/Modules/yolov5/tools/saveSplit"
+savefolder = r"/root/project/Modules/yolov5/example/saveSplit"
 
 # 切割图像的大小
 splitSize = (512,512)
@@ -60,20 +60,20 @@ for i, imagepath in enumerate(imagePaths):
 
             else:
                 cropimg = img[row_*splith:(row_+1)*splith, col_*splitw:(col_+1)*splitw] 
-            print(cropimg.shape) 
+            # print(cropimg.shape) 
             rows_img.append(cropimg)
             cv2.imwrite(os.path.join(folder_, "{}_{}.jpg".format(basename_.split(".")[0], index_)), cropimg)
             index_+=1
         
-        # 对行的图像进行拼接
-        tmp_img = np.concatenate(rows_img, axis=1)  
-        cols_img.append(tmp_img)
+        # # 对行的图像进行拼接
+        # tmp_img = np.concatenate(rows_img, axis=1)  
+        # cols_img.append(tmp_img)
         
-    # 对列的图像进行拼接，获得原图
-    tmp_img = np.concatenate(cols_img)
-    cv2.imwrite("tmp.jpg", tmp_img)
-    print(tmp_img.shape)
-    exit()
+    # # 对列的图像进行拼接，获得原图
+    # tmp_img = np.concatenate(cols_img)
+    # cv2.imwrite("tmp.jpg", tmp_img)
+    # print(tmp_img.shape)
+    # exit()
 
 
 
