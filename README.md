@@ -2,11 +2,9 @@
 Instance segmentation task for stones
 
 ## checkpoints
-# speed
 | Model   |   size    |  (box)mAP50  | (box)mAP50-95  |  (mask)mAP50  | (mask)mAP50-95   |
 | ------- | ----------|--------------|----------------| ------------- |----------------- |
 | v1.0    |  640      |   0.962      |    0.868       |     0.965     |      0.838       |
-
 
 百度网盘链接：https://pan.baidu.com/s/1r64zoGveZ1zOpAICdX4IpQ  提取码：h5h1 
 
