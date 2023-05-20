@@ -79,6 +79,8 @@ if __name__ == "__main__":
 
     one_images_detect = False
     split_images_detect = True
+    # 比例尺系数，默认为1.0
+    scale_factor = 1.0 
 
     # # one images
     if one_images_detect:
@@ -103,9 +105,10 @@ if __name__ == "__main__":
             new_mask[:,:,2][mask_==255]=color[2]
             
         cv2.imwrite("draw_{}".format(os.path.basename(imagepath)), new_mask)
-        totalAreas.sort()
-        print("共有块数：{}".format(len(totalAreas)))
-        print("面积分别有:{}".format(totalAreas))
+        totalAreas_ = [num * scale_factor for num in totalAreas]
+        totalAreas_.sort()
+        print("共有块数：{}".format(len(totalAreas_)))
+        print("面积分别有:{}".format(totalAreas_))
     
     
     # split images
@@ -167,7 +170,8 @@ if __name__ == "__main__":
         tmp_img = np.concatenate(colsimg, axis=1) 
         cv2.imwrite(os.path.join(savefolder, basename_), tmp_img)
         # cv2.imwrite("draw_{}".format(os.path.basename(imagepath)), drawimg)
-        totalAreas.sort()
-        print("共有块数：{}".format(len(totalAreas)))
-        print("面积分别有:{}".format(totalAreas))
+        totalAreas_ = [num * scale_factor for num in totalAreas]
+        totalAreas_.sort()
+        print("共有块数：{}".format(len(totalAreas_)))
+        print("面积分别有:{}".format(totalAreas_))
         
