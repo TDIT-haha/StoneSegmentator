@@ -81,9 +81,9 @@ if __name__ == "__main__":
         # cv2.imwrite("draw_{}".format(os.path.basename(imagepath)), drawimg)
         totalAreas_ = [num * scale_factor for num in totalAreas]
         totalAreas.sort()
-        # print("共有块数：{}".format(len(totalAreas)))
-        # print("面积分别有:{}".format(totalAreas))
+        print("共有块数：{}".format(len(totalAreas)))
+        print("面积分别有:{}".format(totalAreas))
         
         
-        exit(1)
+        # exit(1)
         
