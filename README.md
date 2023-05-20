@@ -15,14 +15,14 @@ Instance segmentation task for stones
 
 
 
-## checkpoints
+## 模型指标
 | Model   |   size    |  (box)mAP50  | (box)mAP50-95  |  (mask)mAP50  | (mask)mAP50-95   |
 | ------- | ----------|--------------|----------------| ------------- |----------------- |
 | v1.0    |  640      |   0.962      |    0.868       |     0.965     |      0.838       |
 
 百度网盘链接：https://pan.baidu.com/s/1r64zoGveZ1zOpAICdX4IpQ  提取码：h5h1 
 
-## speed
+## 速度
 | Model   |  size | GPU/A4000/ONNX/BigImage     |
 | ------- | ------|---------------------------  |
 | v1.0    |  640  |     8.5s                    | 
@@ -43,27 +43,28 @@ python draw_img_train.py  #生成训练集
 python draw_img_val.py  #生成测试机
 ```
 
-## train
+## 训练
 ```
 sh run_seg_train.sh
 ```
 
-## val
+## 验证
 ```
 sh run_seg_val.sh
 ```
 
-## predict
+## 可视化
 ```
 sh run_seg_detect.sh
 ```
 
-## export
+## 模型转换
+pth转onnx
 ```
 sh run_export.sh
 ```
 
-## use onnx to run images
+## 通过ONNX模型进行对大图像（6000x4000）的处理
 #### 如果运行大图
 ```
 cd tools/splitSeg
@@ -87,7 +88,7 @@ python smallImgSeg.py \
 --scale-factor 1.0 \
 ```
 
-## tools
+## 工具
 ```
 cd tools/splitSeg
 python splitImg.py  #切割数据
