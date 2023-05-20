@@ -47,11 +47,34 @@ sh run_export.sh
 ```
 
 ## use onnx to run images
+#### 如果运行大图
 ```
 cd tools/splitSeg
-python bigImgSeg.py
+python bigImgSeg.py \
+--weights "/root/project/Modules/yolov5/runs/train-minseg/V3/weights/best.onnx" \ 
+--imagefolder r"./images" \
+--savefolder r"./draws" \
+--conf-thres 0.3 \
+--iou-thres 0.45 \
+--scale-factor 1.0 \
+```
+#### 如果运行分割后的图
+```
+cd tools/splitSeg
+python smallImgSeg.py \
+--weights "/root/project/Modules/yolov5/runs/train-minseg/V3/weights/best.onnx" \ 
+--imagepath r"/root/project/Modules/yolov5/data/images/[1.8]11.jpg" \
+--savefolder r"./draws" \
+--conf-thres 0.3 \
+--iou-thres 0.45 \
+--scale-factor 1.0 \
 ```
 
+## tools
+```
+cd tools/splitSeg
+python splitImg.py  #切割数据
+```
 
 
 ## TODO
