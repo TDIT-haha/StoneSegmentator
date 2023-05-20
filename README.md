@@ -28,11 +28,11 @@ Instance segmentation task for stones
 | v1.0    |  640  |     8.5s                    | 
                
 
-## datasets
-### 数据集
+## 数据获取以及处理
+#### 数据集
 百度网盘链接：https://pan.baidu.com/s/1QF6ydVZBmLIcLQ6Xfv5IrA  提取码：wspt 
 
-### 结合sam创建数据集
+#### 结合sam创建数据集
 ```
 cd samseg/segment-anything-main
 sh run.sh   #使用sam获得每个石头的masks
@@ -43,28 +43,31 @@ python draw_img_train.py  #生成训练集
 python draw_img_val.py  #生成测试机
 ```
 
-## 训练
+
+## 模型训练
+#### 训练
 ```
 sh run_seg_train.sh
 ```
 
-## 验证
+#### 验证
 ```
 sh run_seg_val.sh
 ```
 
-## 可视化
+#### 可视化
 ```
 sh run_seg_detect.sh
 ```
 
-## 模型转换
-pth转onnx
+#### 模型转换
+模型pth转onnx
 ```
 sh run_export.sh
 ```
 
-## 通过ONNX模型进行对大图像（6000x4000）的处理
+## 在项目中的使用
+通过ONNX模型进行对大图像（6000x4000）的处理
 #### 如果运行大图
 ```
 cd tools/splitSeg
