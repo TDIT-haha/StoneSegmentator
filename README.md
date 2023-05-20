@@ -15,7 +15,10 @@ Instance segmentation task for stones
                
 
 ## datasets
-结合sam创建数据集
+### 数据集
+百度网盘链接：https://pan.baidu.com/s/1QF6ydVZBmLIcLQ6Xfv5IrA  提取码：wspt 
+
+### 结合sam创建数据集
 ```
 cd samseg/segment-anything-main
 sh run.sh   #使用sam获得每个石头的masks
