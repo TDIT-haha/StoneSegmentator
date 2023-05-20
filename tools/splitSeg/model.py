@@ -14,9 +14,9 @@ class StoneSeg:
         self.iou_thres = iou_thres
 
     def modelinit(self):
-        self.session = onnxruntime.InferenceSession(self.modelpath, None)
+        self.session = onnxruntime.InferenceSession(self.modelpath, providers=['CUDAExecutionProvider', 'CPUExecutionProvider'])
         self.input_name = self.session.get_inputs()[0].name
-        self.output_name = self.session.get_outputs()[0].name
+        self.output_names = [x.name for x in self.session.get_outputs()]
 
     def preprocess(self, im0):
         im, ratio, (dw, dh) = letterbox(im0, self.img_size, stride=32, auto=False)  # padded resize
@@ -59,7 +59,7 @@ class StoneSeg:
     def model_inter(self, input_data):
         input_data = np.expand_dims(input_data, 0).astype(np.float32)
         input_data = input_data/255.0
-        pred, proto = self.session.run([], {self.input_name: input_data})
+        pred, proto = self.session.run(self.output_names, {self.input_name: input_data})
         return pred, proto 
 
     def inter(self, image):
