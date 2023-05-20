@@ -4,18 +4,18 @@ import numpy as np
 import onnxruntime
 import torch
 import glob
-from tools import *
-from model import StoneSeg
+from codes.tools import *
+from codes.model import StoneSeg
 
 if __name__ == "__main__":
     # 模型的初始化
     modelpath = "/root/project/Modules/yolov5/runs/train-minseg/V3/weights/best.onnx"
     model = StoneSeg(modelpath, className=["stone"], size=640, conf_thres=0.3, iou_thres=0.45)
     model.modelinit()
+    model.modelwarmup()
 
-    one_images_detect = False
-    split_images_detect = True
-
+    # 比例尺系数，默认为1.0
+    scale_factor = 1.0 
 
     savefolder = r"./draws"
     if not os.path.exists(savefolder):
@@ -25,6 +25,7 @@ if __name__ == "__main__":
     imagefolder = r"./images"
     imagelist = glob.glob(os.path.join(imagefolder, "*.JPG"))
     
+    print("load image .......")
     for imagepath in imagelist:
         # imagepath = r"./images/A_4542.JPG"
         basename_ = os.path.basename(imagepath)
@@ -43,7 +44,6 @@ if __name__ == "__main__":
             for j in tqdm(range(8)):
                 cropimg = newimg[j*512:(j+1)*512, i*512:(i+1)*512]
                 dets, masks = model.inter(cropimg)
-                
                 h_,w_ = cropimg.shape[:2]
                 new_mask = np.zeros((w_, h_, 3)).astype(np.uint8)
                 for mask_ in masks:
@@ -76,9 +76,14 @@ if __name__ == "__main__":
             colsimg.append(tmp_img)
                     
         tmp_img = np.concatenate(colsimg, axis=1) 
-        cv2.imwrite(os.path.join(savefolder, basename_), tmp_img)
+        # cv2.imwrite(os.path.join(savefolder, basename_), tmp_img)
+        cv2.imwrite("draw_{}".format(basename_), tmp_img)
         # cv2.imwrite("draw_{}".format(os.path.basename(imagepath)), drawimg)
+        totalAreas_ = [num * scale_factor for num in totalAreas]
         totalAreas.sort()
-        print("共有块数：{}".format(len(totalAreas)))
-        print("面积分别有:{}".format(totalAreas))
-    
+        # print("共有块数：{}".format(len(totalAreas)))
+        # print("面积分别有:{}".format(totalAreas))
+        
+        
+        exit(1)
+        

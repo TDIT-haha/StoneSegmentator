@@ -3,7 +3,7 @@ from tqdm import tqdm
 import numpy as np
 import onnxruntime
 import torch
-from tools import *
+from .tools import *
 
 class StoneSeg:
     def __init__(self, modelpath=None, className=None, size=None, conf_thres=0.5, iou_thres=0.5): #必须要有一个self参数，
@@ -18,10 +18,18 @@ class StoneSeg:
         self.input_name = self.session.get_inputs()[0].name
         self.output_names = [x.name for x in self.session.get_outputs()]
 
+    def modelwarmup(self):
+        print("set model warmup ......")
+        blob = np.ones((1, 3,self.img_size, self.img_size), dtype=np.float32)
+        for i in range(2):
+            _, _ = self.model_inter(blob)        
+
     def preprocess(self, im0):
         im, ratio, (dw, dh) = letterbox(im0, self.img_size, stride=32, auto=False)  # padded resize
         im = im.transpose((2, 0, 1))[::-1]  # HWC to CHW, BGR to RGB
         im = np.ascontiguousarray(im)  # contiguous
+        im = np.expand_dims(im, 0).astype(np.float32)
+        im = im/255.0
         return im
 
     def postprocess(self, pred, proto):
@@ -57,8 +65,6 @@ class StoneSeg:
         return results_det, results_seg
 
     def model_inter(self, input_data):
-        input_data = np.expand_dims(input_data, 0).astype(np.float32)
-        input_data = input_data/255.0
         pred, proto = self.session.run(self.output_names, {self.input_name: input_data})
         return pred, proto 
 
