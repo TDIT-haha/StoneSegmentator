@@ -32,10 +32,10 @@ Instance segmentation task for stones
 百度网盘链接：https://pan.baidu.com/s/1QF6ydVZBmLIcLQ6Xfv5IrA  提取码：wspt 
 
 #### 若想创建自己的数据集，需结合sam创建数据集
-案例图像A_4542.JPG 百度网盘链接：https://pan.baidu.com/s/1R88gtAb_Cea3udIfsPetzg  提取码：ni4z 
-将图像A_4542.JPG放置example/images，可以运行下面例子进行试跑
+案例图像A_4542.JPG 百度网盘链接：https://pan.baidu.com/s/1R88gtAb_Cea3udIfsPetzg  提取码：ni4z <br>
+将图像A_4542.JPG放置example/images，可以运行下面例子进行试跑<br>
 
---来自百度网盘超级会员V6的分享
+
 将6000x4000的图像进行切割为512x512的图像集
 ```
 cd tools/splitSeg
