@@ -47,6 +47,7 @@ pip install -r requirements.txt
 ```
 cd tools/splitSeg
 python splitImg.py  #切割数据,需自己修改图像地址和保存地址savepath01
+python splitTrainVal.py #对数据划分训练集和测试机
 ```
 
 SAM的vit_h.pt模型，百度网盘链接：https://pan.baidu.com/s/1qZIow1FZ5uQ28SVtRGbY2A 提取码：z86u
