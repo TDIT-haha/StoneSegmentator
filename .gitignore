@@ -61,3 +61,4 @@ tmps
 
 pretrains
 *.csv
+*.cache
