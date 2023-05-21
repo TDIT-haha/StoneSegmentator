@@ -96,6 +96,10 @@ sh run_export.sh
 通过ONNX模型进行对大图像（6000x4000）的处理
 #### 如果运行大图
 ```
+run_bigImSeg.sh
+```
+or
+```
 cd tools/splitSeg
 python bigImgSeg.py \
 --weights "/root/project/Modules/yolov5/runs/train-minseg/V3/weights/best.onnx" \ 
@@ -106,6 +110,10 @@ python bigImgSeg.py \
 --scale-factor 1.0 \
 ```
 #### 如果运行分割后的图
+```
+run_smallImSeg.sh
+```
+or
 ```
 cd tools/splitSeg
 python smallImgSeg.py \

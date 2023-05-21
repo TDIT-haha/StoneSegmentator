@@ -40,7 +40,9 @@ typing_extensions
 tzdata
 urllib3
 zipp
-
+labelme
+pandas
+seaborn
 
 # YOLOv5 requirements
 # Usage: pip install -r requirements.txt

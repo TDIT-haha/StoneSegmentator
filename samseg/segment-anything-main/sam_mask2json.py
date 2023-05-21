@@ -2,7 +2,7 @@ import os
 import numpy as np
 import cv2
 from tqdm import tqdm
-from pycococreatortools import pycococreatortools
+# from pycococreatortools import pycococreatortools
 import json
 from tools import *
 
@@ -129,7 +129,7 @@ for ii , basename_ in enumerate(tqdm(os.listdir(outputfolder))):
     with open(os.path.join(datafolder_jsons, imgname.replace("jpg","json")), "w") as ff:
         json.dump(annos, ff, indent=2)
     
-    cv2.imwrite(os.path.join(savepath, imgname), draw_im)
+    # cv2.imwrite(os.path.join(savepath, imgname), draw_im)
     cv2.imwrite(os.path.join(datafolder_images, imgname), im_copy)
 
 
