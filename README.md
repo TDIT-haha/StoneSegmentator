@@ -1,6 +1,11 @@
 # StoneSegmentator
 Instance segmentation task for stones
 
+## 环境安装
+```
+pip install -r requirements.txt
+```
+
 ## 模型指标
 | Model   |   size    |  (box)mAP50  | (box)mAP50-95  |  (mask)mAP50  | (mask)mAP50-95   |
 | ------- | ----------|--------------|----------------| ------------- |----------------- |
