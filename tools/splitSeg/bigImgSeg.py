@@ -13,7 +13,7 @@ if __name__ == "__main__":
     parser.add_argument('--weights', type=str, default="/root/project/Modules/yolov5/runs/train-minseg/V3/weights/best.onnx", help='onnx model path')
     parser.add_argument('--imagefolder', type=str, default=r"./images", help='imagefolder')
     parser.add_argument('--savefolder', type=str, default=r"./draws", help='savefolder')
-    parser.add_argument('--imgsz', '--img', '--img-size', nargs='+', type=int, default=[640], help='inference size h,w')
+    parser.add_argument('--imgsz', '--img', '--img-size', nargs='+', type=int, default=640, help='inference size h,w')
     parser.add_argument('--conf-thres', type=float, default=0.3, help='confidence threshold')
     parser.add_argument('--iou-thres', type=float, default=0.45, help='NMS IoU threshold')
     parser.add_argument('--scale-factor', type=float, default=1.0, help='NMS IoU threshold')
@@ -21,7 +21,7 @@ if __name__ == "__main__":
     
     # 模型的初始化
     modelpath = opt.weights
-    model = StoneSeg(modelpath, className=["stone"], size=opt.imgsz, conf_thres=opt.conf_thres, iou_thres=opt.iou_thres)
+    model = StoneSeg(modelpath, className=["stone"], size=640, conf_thres=opt.conf_thres, iou_thres=opt.iou_thres)
     model.modelinit()
     model.modelwarmup()
     # 比例尺系数，默认为1.0
@@ -40,7 +40,7 @@ if __name__ == "__main__":
     
     print("load image .......")
     for index_, imagepath in enumerate(imagelist):
-        print(f"--index_: {index_}---"*20)
+        print(f"--------------------index_: {index_}------------------------")
         # imagepath = r"./images/A_4542.JPG"
         basename_ = os.path.basename(imagepath)
         img = cv2.imread(imagepath)

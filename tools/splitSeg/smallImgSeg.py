@@ -12,7 +12,7 @@ if __name__ == "__main__":
     parser.add_argument('--weights', type=str, default="/root/project/Modules/yolov5/runs/train-minseg/V3/weights/best.onnx", help='onnx model path')
     parser.add_argument('--imagepath', type=str, default=r"/root/project/Modules/yolov5/data/images/[1.8]11.jpg", help='imagepath')
     parser.add_argument('--savefolder', type=str, default=r"./draws", help='savefolder')
-    parser.add_argument('--imgsz', '--img', '--img-size', nargs='+', type=int, default=[640], help='inference size h,w')
+    parser.add_argument('--imgsz', '--img', '--img-size', nargs='+', type=int, default=640, help='inference size h,w')
     parser.add_argument('--conf-thres', type=float, default=0.3, help='confidence threshold')
     parser.add_argument('--iou-thres', type=float, default=0.45, help='NMS IoU threshold')
     parser.add_argument('--scale-factor', type=float, default=1.0, help='NMS IoU threshold')
