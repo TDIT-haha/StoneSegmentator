@@ -44,18 +44,18 @@ for i, imagepath in enumerate(imagePaths):
         for col_ in range(cols):
             if col_ == cols-1 and row_ != rows-1:
                 otherw = (col_+1)*splitw - imageWidth
-                cropimg = img[row_*splith:(row_+1)*splith, imageWidth-512:imageWidth]
+                cropimg = img[row_*splith:(row_+1)*splith, imageWidth-splitw:imageWidth]
                 cropimg = cropimg[0:splith, otherw:splitw]
                 
             elif row_ == rows-1 and col_ != cols-1:
                 otherh = (row_+1)*splith - imageHight
-                cropimg = img[imageHight-512:imageHight, col_*splitw:(col_+1)*splitw]
+                cropimg = img[imageHight-splith:imageHight, col_*splitw:(col_+1)*splitw]
                 cropimg = cropimg[otherh:splith, 0:splitw]
                 
             elif row_ == rows-1 and col_ == cols-1:
                 otherh = (row_+1)*splith - imageHight
                 otherw = (col_+1)*splitw - imageWidth
-                cropimg = img[imageHight-512:imageHight, imageWidth-512:imageWidth]
+                cropimg = img[imageHight-splith:imageHight, imageWidth-splitw:imageWidth]
                 cropimg = cropimg[otherh:splith, otherw:splitw]
 
             else:
