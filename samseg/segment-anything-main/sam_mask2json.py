@@ -20,10 +20,10 @@ def get_approx(img, contour, length_p=0.005):
     return approx
 
 # train
-imgfolder = r"/root/project/Modules/yolov5/example/saveSplit/A_4542" # 图像地址
-outputfolder = r"/root/project/Modules/yolov5/samseg/segment-anything-main/test_haha_outputs_01" # SAM生成mask图像地址
-savefolder = r"/root/project/Modules/yolov5/example/datasets" #保存地址
-# savepath = os.path.join(savefolder, "draws")   # draw图像保存地址
+imgfolder = r"/root/project/Modules/yolov5/samseg/segment-anything-main/datasets/images" # 图像地址
+outputfolder = r"/root/project/Modules/yolov5/samseg/segment-anything-main/train_ouput" # SAM生成mask图像地址
+savefolder = r"/root/project/Modules/yolov5/samseg/segment-anything-main/datasets" #保存地址
+savepath = os.path.join(savefolder, "draws")   # draw图像保存地址
 datafolder_images = os.path.join(savefolder, "images") # 训练数据的图像保存地址
 datafolder_jsons = os.path.join(savefolder, "jsons")   # 训练数据的标签保存地址
 
@@ -32,8 +32,8 @@ if not os.path.exists(datafolder_images):
     os.mkdir(datafolder_images)
 if not os.path.exists(datafolder_jsons):
     os.mkdir(datafolder_jsons)
-# if not os.path.exists(savepath):
-#     os.mkdir(savepath)
+if not os.path.exists(savepath):
+    os.mkdir(savepath)
 
 alpha = 0.2 
 beta = 1
@@ -60,6 +60,7 @@ for ii , basename_ in enumerate(tqdm(os.listdir(outputfolder))):
 
     classes = []
     segments = []
+    tmp_im = im.copy()*0
     for indx, pathi in enumerate(os.listdir(outputpath)):
         if pathi == "metadata.csv":
             continue
@@ -74,19 +75,23 @@ for ii , basename_ in enumerate(tqdm(os.listdir(outputfolder))):
         kernel = cv2.getStructuringElement(cv2.MORPH_RECT,(4,4))
         dst = cv2.dilate(dst,kernel)
         dst = dst[...,np.newaxis]
-        tmp_im_org = np.repeat(dst,3,axis=2)
-        binary_mask = tmp_im_org.copy() 
+        tmp_im_org_ = np.repeat(dst,3,axis=2)
+        binary_mask = tmp_im_org_.copy() 
 
         # 对mask进行选取颜色
-        tmp_im = tmp_im_org.copy()
-        color = np.random.randint(0,255,size=(3))
-        tmp_im[:,:,0][tmp_im[:,:,0]==255] = color[0]
-        tmp_im[:,:,1][tmp_im[:,:,1]==255] = color[1]
-        tmp_im[:,:,2][tmp_im[:,:,2]==255] = color[2]
-        draw_im = cv2.addWeighted(tmp_im, alpha, im, beta,0)
+        # tmp_im = tmp_im_org
+        # cv2.imwrite("tmp.jpg", tmp_im_org)
+        
+        color = np.random.randint(50,255,size=(3))
+        tmp_im[:,:,0][tmp_im_org[:,:,0]==255] = color[0]
+        tmp_im[:,:,1][tmp_im_org[:,:,1]==255] = color[1]
+        tmp_im[:,:,2][tmp_im_org[:,:,2]==255] = color[2]
+        # draw_im = cv2.addWeighted(tmp_im, alpha, im, beta,0.5)
+        # cv2.imwrite(os.path.join(savepath, imgname), draw_im)
+        # exit()
         
         # 对mask获取轮廓点
-        thresh = cv2.Canny(tmp_im_org, 128, 256)
+        thresh = cv2.Canny(tmp_im_org_, 128, 256)
         contours, hierarchy = cv2.findContours(thresh, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE) 
         areas = []
         for c in range(len(contours)):
@@ -129,7 +134,8 @@ for ii , basename_ in enumerate(tqdm(os.listdir(outputfolder))):
     with open(os.path.join(datafolder_jsons, imgname.replace("jpg","json")), "w") as ff:
         json.dump(annos, ff, indent=2)
     
-    # cv2.imwrite(os.path.join(savepath, imgname), draw_im)
+    draw_im = cv2.addWeighted(tmp_im, alpha, im, beta,0.5)
+    cv2.imwrite(os.path.join(savepath, imgname), draw_im)
     cv2.imwrite(os.path.join(datafolder_images, imgname), im_copy)
 
 
