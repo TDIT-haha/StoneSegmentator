@@ -20,7 +20,7 @@ def get_binary(img, minConnectedArea=1):
     rows, cols = img.shape[:2]
     img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     
-    ret, img_bin = cv2.threshold(img_gray, 128, 255, cv2.THRESH_BINARY)
+    ret, img_bin = cv2.threshold(img_gray, 127, 255, cv2.THRESH_BINARY)
     _, labels, stats,  _ = cv2.connectedComponentsWithStats(img_bin, connectivity=4)
     
     # print("stats.shape[0]:{}".format(stats.shape[0]))
@@ -31,7 +31,7 @@ def get_binary(img, minConnectedArea=1):
     img_bin =  np.array(img_bin*labels).astype(np.uint8)
     return img, img_bin, rows, cols
 
-def approx_poly_DIY(contour, min_dist = 10, ang_err = 5):
+def approx_poly_DIY(contour, min_dist = 10, ang_err = 1):
     cs = [contour[i][0] for i in range(contour.shape[0])]
     i = 0 
     while i <len(cs):
@@ -39,7 +39,7 @@ def approx_poly_DIY(contour, min_dist = 10, ang_err = 5):
             j = (i+1) if (i!=len(cs)-1) else 0
             if cal_dist(cs[i], cs[j]) < min_dist:
                 last = (i-1) if (i!=0) else (len(cs)-1)
-                next = (j-1) if (j!=0) else (len(cs)-1)
+                next = (j+1) if (j!=len(cs)-1) else 0
                 ang_i = cal_ang(cs[last], cs[i], cs[next])
                 ang_j = cal_ang(cs[last], cs[j], cs[next])
                 if abs(ang_i-ang_j) < ang_err:
@@ -57,11 +57,11 @@ def approx_poly_DIY(contour, min_dist = 10, ang_err = 5):
         except:
             i+=1
             
-    # i = 0
+    i = 0
     while i <len(cs):
         try:
             last = (i-1) if (i!=0) else (len(cs)-1)
-            next = (i-1) if (i!=len(cs)-1) else 0
+            next = (i+1) if (i!=len(cs)-1) else 0
             ang_i = cal_ang(cs[last], cs[i], cs[next])
             if abs(ang_i) > (180-ang_err):
             # if abs(ang_i) > 75:
@@ -73,27 +73,21 @@ def approx_poly_DIY(contour, min_dist = 10, ang_err = 5):
     
     res = np.array(cs).reshape([-1,1,2])
     return res
-    
-
 
 def get_multiregion(img, img_bin):
     contours, hierarchys = cv2.findContours(img_bin, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE) 
     
-    if len(contours):
+    if len(contours) != 0:
         polygons = []
         relas = []
         for idx, (contour, hierarchy) in enumerate(zip(contours, hierarchys[0])):
-            area_ = cv2.contourArea(contour)
-            # if area_ <500:
-            #     continue
-            
+            area_ = cv2.contourArea(contour)            
             epsilon_ = (0.005 * cv2.arcLength(contour, True))
             if not isinstance(epsilon_, float) and not isinstance(epsilon_, int):
                 epsilon_ = 0
             contour = cv2.approxPolyDP(contour, epsilon_/10, True)
             out = approx_poly_DIY(contour)
-            rela_ = (idx, hierarchy[-1] if hierarchy[-1] else None)
-            
+            rela_ = (idx, hierarchy[-1] if hierarchy[-1]!=-1 else None)
             polygon_ = []
             for p in out:
                 polygon_.append(p[0])    
@@ -118,7 +112,6 @@ def find_min_point(i_list, o_list):
                 idx_o = o
     return idx_i, idx_o
 
-
 def change_list(polygons, idx):
     if idx == -1:
         return polygons
@@ -129,7 +122,6 @@ def change_list(polygons, idx):
 
     return polygons
 
-    
 def reduce_relas(polygons, relas):
     for i in range(len(relas)):
         if relas[i][1] != None:
@@ -172,11 +164,12 @@ def process(ori_img):
         polygons = check_size_minmax(polygons, (rows, cols))
     return polygons
 
-# imgpath = r"/root/project/Modules/segment-anything-main/outputs/[1.8]11/0.png"
+# imgpath = r"/root/project/Modules/yolov5/saveim.jpg"
 # img = cv2.imread(imgpath)
 # polygons = process(img)
 # polygons = np.array(polygons).reshape(-1,2)
 # print(polygons.tolist())
+# print(len(polygons.tolist()))
 
 
 
