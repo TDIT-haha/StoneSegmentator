@@ -9,9 +9,9 @@ from labelme.utils import image
 
 
 if __name__ == '__main__':
-    jsonfolder = r"/root/project/Modules/yolov5/example/datasets/jsons" #json文件地址
-    imagefolder = r"/root/project/Modules/yolov5/example/datasets/images" #图像文件地址
-    savefolder = r"/root/project/Modules/yolov5/example/datasets/masks" #图像生成的mask地址
+    jsonfolder = r"/root/project/Modules/yolov5/samseg/segment-anything-main/datasets/jsons" #json文件地址
+    imagefolder = r"/root/project/Modules/yolov5/samseg/segment-anything-main/datasets/images" #图像文件地址
+    savefolder = r"/root/project/Modules/yolov5/samseg/segment-anything-main/datasets/masks" #图像生成的mask地址
     if not os.path.exists(savefolder):
         os.mkdir(savefolder)
     
@@ -42,11 +42,14 @@ if __name__ == '__main__':
         
         for mask_ in mask:
             color = np.random.randint(0,255,size=(3))
-            img[:,:,0][mask_==1]=color[0]
-            img[:,:,1][mask_==1]=color[1]
-            img[:,:,2][mask_==1]=color[2]
+            new_mask[:,:,0][mask_==1]=color[0]
+            new_mask[:,:,1][mask_==1]=color[1]
+            new_mask[:,:,2][mask_==1]=color[2]
             
-        cv2.imwrite(os.path.join(savefolder, basename_), img)
+        alpha = 0.4
+        beta = 0.8
+        draw_im = cv2.addWeighted(new_mask, alpha, img, beta, 0)
+        cv2.imwrite(os.path.join(savefolder, basename_), draw_im)
             
     
 
