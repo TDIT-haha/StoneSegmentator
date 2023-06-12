@@ -6,11 +6,13 @@ import torch
 import glob
 from codes.tools import *
 from codes.model import StoneSeg
+import argparse
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--weights', type=str, default="/root/project/Modules/yolov5/runs/train-minseg/V3/weights/best.onnx", help='onnx model path')
-    parser.add_argument('--imagepath', type=str, default=r"/root/project/Modules/yolov5/data/images/[1.8]11.jpg", help='imagepath')
+    parser.add_argument('--imagepath', type=str, default="/root/project/Modules/yolov5/data/images/[1.8]11.jpg", help='imagepath')
     parser.add_argument('--savefolder', type=str, default=r"./draws", help='savefolder')
     parser.add_argument('--imgsz', '--img', '--img-size', nargs='+', type=int, default=640, help='inference size h,w')
     parser.add_argument('--conf-thres', type=float, default=0.3, help='confidence threshold')
@@ -46,8 +48,14 @@ if __name__ == "__main__":
         new_mask[:,:,0][mask_==255]=color[0]
         new_mask[:,:,1][mask_==255]=color[1]
         new_mask[:,:,2][mask_==255]=color[2]
-        
-    cv2.imwrite(os.path.join(opt.savefolder, "draw_{}".format(os.path.basename(imagepath))), new_mask)
+    
+    # 添加透明显示
+    alpha = 0.4
+    beta = 0.8
+    transparent_im = cv2.addWeighted(new_mask, alpha, img, beta, 0)
+    # cv2.imwrite(os.path.join(opt.savefolder, "draw_{}".format(os.path.basename(imagepath))), new_mask)
+    cv2.imwrite(os.path.join(opt.savefolder, "draw_{}".format(os.path.basename(imagepath))), transparent_im)
+    
     totalAreas_ = [num * scale_factor for num in totalAreas]
     totalAreas_.sort()
     print("共有块数：{}".format(len(totalAreas_)))
