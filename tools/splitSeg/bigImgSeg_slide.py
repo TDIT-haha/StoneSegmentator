@@ -121,6 +121,21 @@ if __name__ == "__main__":
 
 
         for j, [mask_, toppoint_, bbox_] in enumerate(zip(allMasks,allTopPoints, allDets)):
+            # 逻辑处理与计算
+            contours, hierarchy = cv2.findContours(mask_, cv2.RETR_LIST, cv2.CHAIN_APPROX_NONE) 
+            areas = []
+            if len(contours) == 0:
+                continue
+            for c in range(len(contours)):
+                if cv2.contourArea(contours[c]) == 0:
+                    continue
+                areas.append(cv2.contourArea(contours[c]))
+            if len(areas) == 0:
+                continue
+            max_areas = np.max(areas)
+            totalAreas.append(max_areas)
+            
+            
             x_, y_ = toppoint_
             newimg_mask_crop = newimg_mask[y_:y_+512,x_:x_+512]
             color = np.random.randint(125,255,size=(3))
@@ -142,11 +157,6 @@ if __name__ == "__main__":
             cv2.putText(newimg_mask, f"({j})", (int((x1+x2)/2),int((y1+y2)/2)),0,1,(0,0,255),thickness=1,lineType=cv2.LINE_AA)
             
 
-                                
-        # for bbox_ in allDets:
-        #     x1,y1,x2,y2 = bbox_[:4]
-        #     cv2.rectangle(newimg, (int(x1),int(y1)), (int(x2),int(y2)), (0,255,0), 1, 1)
-        #     cv2.rectangle(newimg_mask, (int(x1),int(y1)), (int(x2),int(y2)), (0,255,0), 1, 1)
         
         alpha = 0.4
         beta = 0.8
@@ -155,6 +165,10 @@ if __name__ == "__main__":
         cv2.imwrite("tmp.jpg", newimg)     
         cv2.imwrite("tmp_mask.jpg", newimg_mask)     
         cv2.imwrite("tmp_transparent_im.jpg", transparent_im)     
+        totalAreas_ = [num * scale_factor for num in totalAreas]
+        totalAreas.sort()
+        print("共有块数：{}".format(len(totalAreas)))
+        print("面积分别有:{}".format(totalAreas))
         exit()
        
                 
