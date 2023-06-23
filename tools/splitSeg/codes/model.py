@@ -37,7 +37,7 @@ class StoneSeg:
         iou_thres = self.iou_thres
         classes = None
         agnostic_nms = False
-        max_det = 1000
+        max_det = 10000
 
         pred = non_max_suppression(pred, conf_thres, iou_thres, classes, agnostic_nms, max_det=max_det, nm=32)
         proto = torch.from_numpy(proto)
@@ -47,21 +47,20 @@ class StoneSeg:
         
         for i, det in enumerate(pred):
             if len(det):
+
                 masks = process_mask(proto[i], det[:, 6:], det[:, :4], [self.img_size, self.img_size], upsample=True)  # HWC
                 det[:, :4] = scale_boxes([self.img_size, self.img_size], det[:, :4], self.im.shape[:2]).round()
                 masks = masks.detach().cpu().numpy().astype(np.uint8)
-                masks[masks==1]=255
-                
-            for onemask in masks:
-                newmaski = scale_image((640, 640), onemask, (512, 512))
-                newmaski = newmaski[:,:,0]
-                results_seg.append(newmaski)
-                    
-            for *xyxy, conf, cls in reversed(det[:, :6]):
+                # masks[masks==1]=255 #我注释掉了
+             
+            for j, [onemask, det_] in enumerate(zip(masks, det[:, :6])):  
+                *xyxy, conf, cls = det_
                 x1,y1,x2,y2 = xyxy
-                results_det.append([x1,y1,x2,y2])
+                newmaski = scale_image((self.img_size, self.img_size), onemask, (self.orgim_h, self.orgim_w))
+                results_det.append([x1,y1,x2,y2, 0, conf])
+                results_seg.append(newmaski[:,:,0])
 
-
+            
         return results_det, results_seg
 
     def model_inter(self, input_data):
@@ -70,6 +69,7 @@ class StoneSeg:
 
     def inter(self, image):
         self.im = image.copy()
+        self.orgim_h, self.orgim_w = self.im.shape[:2]
         blob = self.preprocess(image)
         pred, proto = self.model_inter(blob)
         dets, masks = self.postprocess(pred, proto)
